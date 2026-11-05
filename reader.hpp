@@ -1,48 +1,35 @@
-#pragma once
-
+п»ї#pragma once
 #include "recommendationlist.hpp"
-
-#include <cstddef>
 #include <string>
 #include <string_view>
+#include <memory>
 
-namespace bookstore
+namespace bookstore 
 {
-
     class Book;
 
-    class Reader
-    {
+    class Reader {
     public:
         Reader();
         explicit Reader(std::string_view name);
-        ~Reader();
-
-        Reader(const Reader&) = delete;
-        Reader(Reader&&) = delete;
-        Reader& operator=(const Reader&) = delete;
-        Reader& operator=(Reader&&) = delete;
+        ~Reader() = default;
 
         void RateBook(Book& book, int rating);
-        bool BuyBook(Book& book);
-        void RequestRecommendations(Book* const* candidates, std::size_t count);
-
+        bool BuyBook(const std::shared_ptr<Book>& book);
+        void RequestRecommendations(const std::shared_ptr<Book>* candidates, std::size_t count);
         void PrintStatus() const;
 
-        [[nodiscard]] const RecommendationList& GetRecommendations() const;
-
     private:
-        [[nodiscard]] bool IsPurchased(std::string_view title) const;
+        bool IsPurchased(std::string_view title) const;
         void AddPurchasedTitle(std::string_view title);
 
-        std::string m_name{ "Без имени" };
+        std::string m_name{ "Р‘РµР· РёРјРµРЅРё" };
         RecommendationList m_recommendations; 
 
-        std::string* m_purchasedTitles{ nullptr };
+        std::unique_ptr<std::string[]> m_purchasedTitles{ nullptr };
         std::size_t m_purchasedCount{ 0 };
         std::size_t m_purchasedCapacity{ 0 };
 
         bool m_hasActivity{ false };
     };
-
-} // namespace bookstore
+} 
