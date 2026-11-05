@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include "recommendationlist.hpp"
 #include <string>
 #include <string_view>
@@ -23,7 +23,7 @@ namespace bookstore
         bool IsPurchased(std::string_view title) const;
         void AddPurchasedTitle(std::string_view title);
 
-        std::string m_name{ "Без имени" };
+        std::string m_name{ "Р‘РµР· РёРјРµРЅРё" };
         RecommendationList m_recommendations; 
 
         std::unique_ptr<std::string[]> m_purchasedTitles{ nullptr };

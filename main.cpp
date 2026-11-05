@@ -1,4 +1,4 @@
-#include "book.hpp"
+п»ї#include "book.hpp"
 #include "reader.hpp"
 #include <iostream>
 #include <memory>
@@ -8,24 +8,24 @@ using namespace bookstore;
 
 void RunScenario()
 {
-    std::cout << "\nСценарий магазина\n";
+    std::cout << "\nРЎС†РµРЅР°СЂРёР№ РјР°РіР°Р·РёРЅР°\n";
 
-    auto witcher = std::make_shared<Book>("Ведьмак", "Сапковский", "Фэнтези", 2);
-    auto dune = std::make_shared<Book>("Дюна", "Герберт", "Фантастика", 1);
+    auto witcher = std::make_shared<Book>("Р’РµРґСЊРјР°Рє", "РЎР°РїРєРѕРІСЃРєРёР№", "Р¤СЌРЅС‚РµР·Рё", 2);
+    auto dune = std::make_shared<Book>("Р”СЋРЅР°", "Р“РµСЂР±РµСЂС‚", "Р¤Р°РЅС‚Р°СЃС‚РёРєР°", 1);
 
-    std::cout << "\nСоздание читателя\n";
+    std::cout << "\nРЎРѕР·РґР°РЅРёРµ С‡РёС‚Р°С‚РµР»СЏ\n";
     {
-        Reader reader("Иван");
+        Reader reader("РРІР°РЅ");
 
-        std::cout << "\nПроверка правил\n";
+        std::cout << "\nРџСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»\n";
         reader.RateBook(*witcher, 6);
         reader.RateBook(*witcher, 4);
 
-        std::cout << "\nПокупка книг\n";
+        std::cout << "\nРџРѕРєСѓРїРєР° РєРЅРёРі\n";
         reader.BuyBook(witcher);
         reader.BuyBook(witcher);
 
-        std::cout << "\nФормирование рекомендаций\n";
+        std::cout << "\nР¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ СЂРµРєРѕРјРµРЅРґР°С†РёР№\n";
         auto candidates = std::make_unique<std::shared_ptr<Book>[]>(2);
         candidates[0] = witcher;
         candidates[1] = dune;
@@ -33,64 +33,64 @@ void RunScenario()
         reader.RequestRecommendations(candidates.get(), 2);
         reader.PrintStatus();
 
-        std::cout << "\nПроверка weak_ptr (Книга удаляется) \n";
-        std::cout << "Удаляем книгу 'Дюна' из памяти (dune.reset)...\n";
+        std::cout << "\nРџСЂРѕРІРµСЂРєР° weak_ptr (РљРЅРёРіР° СѓРґР°Р»СЏРµС‚СЃСЏ) \n";
+        std::cout << "РЈРґР°Р»СЏРµРј РєРЅРёРіСѓ 'Р”СЋРЅР°' РёР· РїР°РјСЏС‚Рё (dune.reset)...\n";
         dune.reset(); 
 
         reader.PrintStatus();
 
     } 
 
-    std::cout << "\nЧитатель уничтожен. Но книга 'Ведьмак' жива (Агрегация)\n";
-    std::cout << "Книга жива: " << witcher->GetTitle() << "\n";
+    std::cout << "\nР§РёС‚Р°С‚РµР»СЊ СѓРЅРёС‡С‚РѕР¶РµРЅ. РќРѕ РєРЅРёРіР° 'Р’РµРґСЊРјР°Рє' Р¶РёРІР° (РђРіСЂРµРіР°С†РёСЏ)\n";
+    std::cout << "РљРЅРёРіР° Р¶РёРІР°: " << witcher->GetTitle() << "\n";
 }
 
 void DemoMemory()
 {
-    std::cout << "\nДемонстрация памяти (Умные указатели)\n";
+    std::cout << "\nР”РµРјРѕРЅСЃС‚СЂР°С†РёСЏ РїР°РјСЏС‚Рё (РЈРјРЅС‹Рµ СѓРєР°Р·Р°С‚РµР»Рё)\n";
 
-    std::cout << "\nСтатическая инициализация\n";
+    std::cout << "\nРЎС‚Р°С‚РёС‡РµСЃРєР°СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ\n";
     {
-        Book stackBook("Мастер и Маргарита", "Булгаков", "Роман", 3);
-        std::cout << "Книга на стеке: " << stackBook.GetTitle() << "\n";
+        Book stackBook("РњР°СЃС‚РµСЂ Рё РњР°СЂРіР°СЂРёС‚Р°", "Р‘СѓР»РіР°РєРѕРІ", "Р РѕРјР°РЅ", 3);
+        std::cout << "РљРЅРёРіР° РЅР° СЃС‚РµРєРµ: " << stackBook.GetTitle() << "\n";
     } 
 
-    std::cout << "\nunique_ptr: один владелец и std::move\n";
+    std::cout << "\nunique_ptr: РѕРґРёРЅ РІР»Р°РґРµР»РµС† Рё std::move\n";
     {
-        auto owner1 = std::make_unique<Book>("Война и мир", "Толстой", "Роман", 1);
-        std::cout << "Владелец 1: " << owner1->GetTitle() << "\n";
+        auto owner1 = std::make_unique<Book>("Р’РѕР№РЅР° Рё РјРёСЂ", "РўРѕР»СЃС‚РѕР№", "Р РѕРјР°РЅ", 1);
+        std::cout << "Р’Р»Р°РґРµР»РµС† 1: " << owner1->GetTitle() << "\n";
 
         auto owner2 = std::move(owner1); 
         if (!owner1) {
-            std::cout << "owner1 пуст: владение успешно передано.\n";
+            std::cout << "owner1 РїСѓСЃС‚: РІР»Р°РґРµРЅРёРµ СѓСЃРїРµС€РЅРѕ РїРµСЂРµРґР°РЅРѕ.\n";
         }
-        std::cout << "Владелец 2: " << owner2->GetTitle() << "\n";
+        std::cout << "Р’Р»Р°РґРµР»РµС† 2: " << owner2->GetTitle() << "\n";
     } 
 
-    std::cout << "\nshared_ptr: счетчик владельцев\n";
+    std::cout << "\nshared_ptr: СЃС‡РµС‚С‡РёРє РІР»Р°РґРµР»СЊС†РµРІ\n";
     {
-        auto sharedBook = std::make_shared<Book>("1984", "Оруэлл", "Антиутопия", 2);
-        std::cout << "Владельцев: " << sharedBook.use_count() << "\n";
+        auto sharedBook = std::make_shared<Book>("1984", "РћСЂСѓСЌР»Р»", "РђРЅС‚РёСѓС‚РѕРїРёСЏ", 2);
+        std::cout << "Р’Р»Р°РґРµР»СЊС†РµРІ: " << sharedBook.use_count() << "\n";
         {
             auto bookCopy = sharedBook; 
-            std::cout << "Владельцев после копии: " << sharedBook.use_count() << "\n"; 
+            std::cout << "Р’Р»Р°РґРµР»СЊС†РµРІ РїРѕСЃР»Рµ РєРѕРїРёРё: " << sharedBook.use_count() << "\n"; 
         } 
-        std::cout << "Владельцев после выхода из блока: " << sharedBook.use_count() << "\n"; 
+        std::cout << "Р’Р»Р°РґРµР»СЊС†РµРІ РїРѕСЃР»Рµ РІС‹С…РѕРґР° РёР· Р±Р»РѕРєР°: " << sharedBook.use_count() << "\n"; 
     }
 
-    std::cout << "\nДинамический массив объектов\n";
+    std::cout << "\nР”РёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ\n";
     {
         auto shelf = std::make_unique<Book[]>(2);
-        shelf[0].SetTitle("Преступление и наказание");
-        shelf[1].SetTitle("Идиот");
-        std::cout << "Массив книг: " << shelf[0].GetTitle() << ", " << shelf[1].GetTitle() << "\n";
+        shelf[0].SetTitle("РџСЂРµСЃС‚СѓРїР»РµРЅРёРµ Рё РЅР°РєР°Р·Р°РЅРёРµ");
+        shelf[1].SetTitle("РРґРёРѕС‚");
+        std::cout << "РњР°СЃСЃРёРІ РєРЅРёРі: " << shelf[0].GetTitle() << ", " << shelf[1].GetTitle() << "\n";
     } 
-    std::cout << "\nМассив динамических объектов\n";
+    std::cout << "\nРњР°СЃСЃРёРІ РґРёРЅР°РјРёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ\n";
     {
         auto dynShelf = std::make_unique<std::shared_ptr<Book>[]>(2);
-        dynShelf[0] = std::make_shared<Book>("Гарри Поттер", "Роулинг", "Фэнтези", 5);
-        dynShelf[1] = std::make_shared<Book>("Хоббит", "Толкин", "Фэнтези", 3);
-        std::cout << "Указатели на книги: " << dynShelf[0]->GetTitle() << ", " << dynShelf[1]->GetTitle() << "\n";
+        dynShelf[0] = std::make_shared<Book>("Р“Р°СЂСЂРё РџРѕС‚С‚РµСЂ", "Р РѕСѓР»РёРЅРі", "Р¤СЌРЅС‚РµР·Рё", 5);
+        dynShelf[1] = std::make_shared<Book>("РҐРѕР±Р±РёС‚", "РўРѕР»РєРёРЅ", "Р¤СЌРЅС‚РµР·Рё", 3);
+        std::cout << "РЈРєР°Р·Р°С‚РµР»Рё РЅР° РєРЅРёРіРё: " << dynShelf[0]->GetTitle() << ", " << dynShelf[1]->GetTitle() << "\n";
     } 
 }
 
@@ -100,12 +100,12 @@ int main()
     SetConsoleCP(65001);
     setlocale(LC_ALL, "Russian");
 
-    std::cout << "Лабораторная работа №3\n";
-    std::cout << "Управляемая память и умные указатели\n";
+    std::cout << "Р›Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ СЂР°Р±РѕС‚Р° в„–3\n";
+    std::cout << "РЈРїСЂР°РІР»СЏРµРјР°СЏ РїР°РјСЏС‚СЊ Рё СѓРјРЅС‹Рµ СѓРєР°Р·Р°С‚РµР»Рё\n";
 
     RunScenario();
     DemoMemory();
 
-    std::cout << "\nКонец программы\n";
+    std::cout << "\nРљРѕРЅРµС† РїСЂРѕРіСЂР°РјРјС‹\n";
     return 0;
 }

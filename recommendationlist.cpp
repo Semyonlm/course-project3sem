@@ -1,4 +1,4 @@
-#include "recommendationlist.hpp"
+ï»¿#include "recommendationlist.hpp"
 #include "book.hpp"
 #include <iostream>
 
@@ -6,20 +6,20 @@ namespace bookstore {
 
     RecommendationList::RecommendationList() {
         m_books = std::make_unique<std::weak_ptr<Book>[]>(MAX_SIZE);
-        std::cout << "Ðåêîìåíäàòåëüíûé ñïèñîê ñîçäàí (âëàäåëåö: " << m_ownerName << ")" << std::endl;
+        std::cout << "Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÐ¿Ð¸ÑÐ¾Ðº ÑÐ¾Ð·Ð´Ð°Ð½ (Ð²Ð»Ð°Ð´ÐµÐ»ÐµÑ†: " << m_ownerName << ")" << std::endl;
     }
     RecommendationList::RecommendationList(std::string_view ownerName) : m_ownerName{ ownerName } {
         m_books = std::make_unique<std::weak_ptr<Book>[]>(MAX_SIZE);
-        std::cout << "Ðåêîìåíäàòåëüíûé ñïèñîê ñîçäàí (âëàäåëåö: " << m_ownerName << ")" << std::endl;
+        std::cout << "Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÐ¿Ð¸ÑÐ¾Ðº ÑÐ¾Ð·Ð´Ð°Ð½ (Ð²Ð»Ð°Ð´ÐµÐ»ÐµÑ†: " << m_ownerName << ")" << std::endl;
     }
     bool RecommendationList::AddBook(const std::shared_ptr<Book>& book) {
         if (!book) return false;
         if (m_size >= MAX_SIZE) {
-            std::cout << "Îøèáêà: ñïèñîê çàïîëíåí." << std::endl;
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: ÑÐ¿Ð¸ÑÐ¾Ðº Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½." << std::endl;
             return false;
         }
         if (!book->IsAvailable()) {
-            std::cout << "Îøèáêà: êíèãà \"" << book->GetTitle() << "\" ñíÿòà ñ ïðîäàæè." << std::endl;
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: ÐºÐ½Ð¸Ð³Ð° \"" << book->GetTitle() << "\" ÑÐ½ÑÑ‚Ð° Ñ Ð¿Ñ€Ð¾Ð´Ð°Ð¶Ð¸." << std::endl;
             return false;
         }
         m_books[m_size] = book;
@@ -36,7 +36,7 @@ namespace bookstore {
 
     void RecommendationList::Print() const {
         if (m_size == 0) {
-            std::cout << "  (ðåêîìåíäàöèé íåò)" << std::endl;
+            std::cout << "  (Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¹ Ð½ÐµÑ‚)" << std::endl;
             return;
         }
         for (std::size_t i = 0; i < m_size; ++i) {
@@ -44,7 +44,7 @@ namespace bookstore {
                 std::cout << "  - " << book->GetTitle() << std::endl;
             }
             else {
-                std::cout << "  - [Êíèãà áûëà óäàëåíà èç ïàìÿòè]" << std::endl;
+                std::cout << "  - [ÐšÐ½Ð¸Ð³Ð° Ð±Ñ‹Ð»Ð° ÑƒÐ´Ð°Ð»ÐµÐ½Ð° Ð¸Ð· Ð¿Ð°Ð¼ÑÑ‚Ð¸]" << std::endl;
             }
         }
     }

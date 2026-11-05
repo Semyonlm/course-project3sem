@@ -1,33 +1,33 @@
-#include "reader.hpp"
+п»ї#include "reader.hpp"
 #include "book.hpp"
 #include <iostream>
 
 namespace bookstore {
-    Reader::Reader() : Reader("Без имени") {}
+    Reader::Reader() : Reader("Р‘РµР· РёРјРµРЅРё") {}
     Reader::Reader(std::string_view name) : m_name{ name }, m_recommendations{ name } {
-        std::cout << "Читатель создан: " << m_name << std::endl;
+        std::cout << "Р§РёС‚Р°С‚РµР»СЊ СЃРѕР·РґР°РЅ: " << m_name << std::endl;
     }
 
     void Reader::RateBook(Book& book, int rating) {
         if (book.SetRating(rating)) {
             m_hasActivity = true;
-            std::cout << "Читатель " << m_name << " оценил \"" << book.GetTitle() << "\" на " << rating << "." << std::endl;
+            std::cout << "Р§РёС‚Р°С‚РµР»СЊ " << m_name << " РѕС†РµРЅРёР» \"" << book.GetTitle() << "\" РЅР° " << rating << "." << std::endl;
         }
     }
 
     bool Reader::BuyBook(const std::shared_ptr<Book>& book) {
         if (!book || !book->IsAvailable() || book->GetStock() <= 0 || IsPurchased(book->GetTitle())) {
-            std::cout << "Ошибка покупки книги." << std::endl;
+            std::cout << "РћС€РёР±РєР° РїРѕРєСѓРїРєРё РєРЅРёРіРё." << std::endl;
             return false;
         }
         AddPurchasedTitle(book->GetTitle());
         m_hasActivity = true;
-        std::cout << "Читатель " << m_name << " купил \"" << book->GetTitle() << "\"." << std::endl;
+        std::cout << "Р§РёС‚Р°С‚РµР»СЊ " << m_name << " РєСѓРїРёР» \"" << book->GetTitle() << "\"." << std::endl;
         return true;
     }
     void Reader::RequestRecommendations(const std::shared_ptr<Book>* candidates, std::size_t count) {
         if (!m_hasActivity) {
-            std::cout << "Недостаточно данных для рекомендаций." << std::endl;
+            std::cout << "РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ СЂРµРєРѕРјРµРЅРґР°С†РёР№." << std::endl;
             return;
         }
         m_recommendations.Clear();
@@ -39,7 +39,7 @@ namespace bookstore {
     }
 
     void Reader::PrintStatus() const {
-        std::cout << "Читатель: " << m_name << "\nРекомендации:\n";
+        std::cout << "Р§РёС‚Р°С‚РµР»СЊ: " << m_name << "\nР РµРєРѕРјРµРЅРґР°С†РёРё:\n";
         m_recommendations.Print();
     }
 
