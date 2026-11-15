@@ -90,3 +90,13 @@ desktop.ini
 *~
 out/
 app.exe
+# Visual Studio project files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.user
+*.filters
+
+# Java build output
+out/

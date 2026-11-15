@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <string>
 #include <string_view>
@@ -37,9 +37,9 @@ namespace bookstore
         void Print() const;
 
     private:
-        std::string m_title{ "Без названия" };
-        std::string m_author{ "Неизвестен" };
-        std::string m_genre{ "Не определён" };
+        std::string m_title{ "Р‘РµР· РЅР°Р·РІР°РЅРёСЏ" };
+        std::string m_author{ "РќРµРёР·РІРµСЃС‚РµРЅ" };
+        std::string m_genre{ "РќРµ РѕРїСЂРµРґРµР»С‘РЅ" };
         int m_rating{ 0 };
         int m_stock{ 0 };
         bool m_available{ true };

@@ -1,4 +1,4 @@
-#include "book.hpp"
+ï»¿#include "book.hpp"
 
 #include <iostream>
 #include <string>
@@ -8,7 +8,7 @@ namespace bookstore
 
     Book::Book()
     {
-        std::cout << "Êíèãà ñîçäàíà (ïî óìîë÷àíèþ): " << m_title << std::endl;
+        std::cout << "ÐšÐ½Ð¸Ð³Ð° ÑÐ¾Ð·Ð´Ð°Ð½Ð° (Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ): " << m_title << std::endl;
     }
 
     Book::Book(std::string_view title, std::string_view author, std::string_view genre, int stock, bool available)
@@ -20,16 +20,16 @@ namespace bookstore
     {
         if (m_stock < 0)
         {
-            std::cout << "Îøèáêà: êîëè÷åñòâî ýêçåìïëÿðîâ íå ìîæåò áûòü îòðèöàòåëüíûì. Óñòàíîâëåíî 0." << std::endl;
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐºÐ·ÐµÐ¼Ð¿Ð»ÑÑ€Ð¾Ð² Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼. Ð£ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ 0." << std::endl;
             m_stock = 0;
         }
 
-        std::cout << "Êíèãà ñîçäàíà: " << m_title << std::endl;
+        std::cout << "ÐšÐ½Ð¸Ð³Ð° ÑÐ¾Ð·Ð´Ð°Ð½Ð°: " << m_title << std::endl;
     }
 
     Book::~Book()
     {
-        std::cout << "Êíèãà óíè÷òîæåíà: " << m_title << std::endl;
+        std::cout << "ÐšÐ½Ð¸Ð³Ð° ÑƒÐ½Ð¸Ñ‡Ñ‚Ð¾Ð¶ÐµÐ½Ð°: " << m_title << std::endl;
     }
 
     std::string_view Book::GetTitle() const
@@ -81,7 +81,7 @@ namespace bookstore
     {
         if (stock < 0)
         {
-            std::cout << "Îøèáêà: íàëè÷èå íå ìîæåò áûòü îòðèöàòåëüíûì." << std::endl;
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ðµ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼." << std::endl;
             return;
         }
         m_stock = stock;
@@ -91,8 +91,8 @@ namespace bookstore
     {
         if (rating < 1 || rating > 5)
         {
-            std::cout << "Îøèáêà: îöåíêà êíèãè \"" << m_title
-                << "\" äîëæíà áûòü öåëûì ÷èñëîì îò 1 äî 5. Ïîëó÷åíî: " << rating << std::endl;
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð¾Ñ†ÐµÐ½ÐºÐ° ÐºÐ½Ð¸Ð³Ð¸ \"" << m_title
+                << "\" Ð´Ð¾Ð»Ð¶Ð½Ð° Ð±Ñ‹Ñ‚ÑŒ Ñ†ÐµÐ»Ñ‹Ð¼ Ñ‡Ð¸ÑÐ»Ð¾Ð¼ Ð¾Ñ‚ 1 Ð´Ð¾ 5. ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¾: " << rating << std::endl;
             return false;
         }
 
@@ -103,19 +103,19 @@ namespace bookstore
     void Book::WithdrawFromSale()
     {
         m_available = false;
-        std::cout << "Êíèãà \"" << m_title << "\" ñíÿòà ñ ïðîäàæè." << std::endl;
+        std::cout << "ÐšÐ½Ð¸Ð³Ð° \"" << m_title << "\" ÑÐ½ÑÑ‚Ð° Ñ Ð¿Ñ€Ð¾Ð´Ð°Ð¶Ð¸." << std::endl;
     }
 
     void Book::Print() const
     {
-        const std::string ratingStr = (m_rating == 0) ? std::string("íåò") : std::to_string(m_rating);
+        const std::string ratingStr = (m_rating == 0) ? std::string("Ð½ÐµÑ‚") : std::to_string(m_rating);
 
-        std::cout << "Êíèãà: \"" << m_title << "\""
-            << " | Àâòîð: " << m_author
-            << " | Æàíð: " << m_genre
-            << " | Ðåéòèíã: " << ratingStr
-            << " | Íàëè÷èå: " << m_stock
-            << " | Äîñòóïíà: " << (m_available ? "äà" : "íåò")
+        std::cout << "ÐšÐ½Ð¸Ð³Ð°: \"" << m_title << "\""
+            << " | ÐÐ²Ñ‚Ð¾Ñ€: " << m_author
+            << " | Ð–Ð°Ð½Ñ€: " << m_genre
+            << " | Ð ÐµÐ¹Ñ‚Ð¸Ð½Ð³: " << ratingStr
+            << " | ÐÐ°Ð»Ð¸Ñ‡Ð¸Ðµ: " << m_stock
+            << " | Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð°: " << (m_available ? "Ð´Ð°" : "Ð½ÐµÑ‚")
             << std::endl;
     }
 

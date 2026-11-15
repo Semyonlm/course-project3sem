@@ -1,108 +1,111 @@
-#include "book.hpp"
+Ôªø#include "book.hpp"
 #include "reader.hpp"
-#include <locale.h>
 #include <iostream>
+#include <memory>
+#include <windows.h> 
 
-using bookstore::Book;
-using bookstore::Reader;
+using namespace bookstore;
+
+void RunScenario()
+{
+    std::cout << "\n–°—Ü–µ–Ω–∞—Ä–∏–π –º–∞–≥–∞–∑–∏–Ω–∞\n";
+
+    auto witcher = std::make_shared<Book>("–í–µ–¥—å–º–∞–∫", "–°–∞–ø–∫–æ–≤—Å–∫–∏–π", "–§—ç–Ω—Ç–µ–∑–∏", 2);
+    auto dune = std::make_shared<Book>("–î—é–Ω–∞", "–ì–µ—Ä–±–µ—Ä—Ç", "–§–∞–Ω—Ç–∞—Å—Ç–∏–∫–∞", 1);
+
+    std::cout << "\n–°–æ–∑–¥–∞–Ω–∏–µ —á–∏—Ç–∞—Ç–µ–ª—è\n";
+    {
+        Reader reader("–ò–≤–∞–Ω");
+
+        std::cout << "\n–ü—Ä–æ–≤–µ—Ä–∫–∞ –ø—Ä–∞–≤–∏–ª\n";
+        reader.RateBook(*witcher, 6);
+        reader.RateBook(*witcher, 4);
+
+        std::cout << "\n–ü–æ–∫—É–ø–∫–∞ –∫–Ω–∏–≥\n";
+        reader.BuyBook(witcher);
+        reader.BuyBook(witcher);
+
+        std::cout << "\n–§–æ—Ä–º–∏—Ä–æ–≤–∞–Ω–∏–µ —Ä–µ–∫–æ–º–µ–Ω–¥–∞—Ü–∏–π\n";
+        auto candidates = std::make_unique<std::shared_ptr<Book>[]>(2);
+        candidates[0] = witcher;
+        candidates[1] = dune;
+
+        reader.RequestRecommendations(candidates.get(), 2);
+        reader.PrintStatus();
+
+        std::cout << "\n–ü—Ä–æ–≤–µ—Ä–∫–∞ weak_ptr (–ö–Ω–∏–≥–∞ —É–¥–∞–ª—è–µ—Ç—Å—è) \n";
+        std::cout << "–£–¥–∞–ª—è–µ–º –∫–Ω–∏–≥—É '–î—é–Ω–∞' –∏–∑ –ø–∞–º—è—Ç–∏ (dune.reset)...\n";
+        dune.reset(); 
+
+        reader.PrintStatus();
+
+    } 
+
+    std::cout << "\n–ß–∏—Ç–∞—Ç–µ–ª—å —É–Ω–∏—á—Ç–æ–∂–µ–Ω. –ù–æ –∫–Ω–∏–≥–∞ '–í–µ–¥—å–º–∞–∫' –∂–∏–≤–∞ (–ê–≥—Ä–µ–≥–∞—Ü–∏—è)\n";
+    std::cout << "–ö–Ω–∏–≥–∞ –∂–∏–≤–∞: " << witcher->GetTitle() << "\n";
+}
+
+void DemoMemory()
+{
+    std::cout << "\n–î–µ–º–æ–Ω—Å—Ç—Ä–∞—Ü–∏—è –ø–∞–º—è—Ç–∏ (–£–º–Ω—ã–µ —É–∫–∞–∑–∞—Ç–µ–ª–∏)\n";
+
+    std::cout << "\n–°—Ç–∞—Ç–∏—á–µ—Å–∫–∞—è –∏–Ω–∏—Ü–∏–∞–ª–∏–∑–∞—Ü–∏—è\n";
+    {
+        Book stackBook("–ú–∞—Å—Ç–µ—Ä –∏ –ú–∞—Ä–≥–∞—Ä–∏—Ç–∞", "–ë—É–ª–≥–∞–∫–æ–≤", "–†–æ–º–∞–Ω", 3);
+        std::cout << "–ö–Ω–∏–≥–∞ –Ω–∞ —Å—Ç–µ–∫–µ: " << stackBook.GetTitle() << "\n";
+    } 
+
+    std::cout << "\nunique_ptr: –æ–¥–∏–Ω –≤–ª–∞–¥–µ–ª–µ—Ü –∏ std::move\n";
+    {
+        auto owner1 = std::make_unique<Book>("–í–æ–π–Ω–∞ –∏ –º–∏—Ä", "–¢–æ–ª—Å—Ç–æ–π", "–†–æ–º–∞–Ω", 1);
+        std::cout << "–í–ª–∞–¥–µ–ª–µ—Ü 1: " << owner1->GetTitle() << "\n";
+
+        auto owner2 = std::move(owner1); 
+        if (!owner1) {
+            std::cout << "owner1 –ø—É—Å—Ç: –≤–ª–∞–¥–µ–Ω–∏–µ —É—Å–ø–µ—à–Ω–æ –ø–µ—Ä–µ–¥–∞–Ω–æ.\n";
+        }
+        std::cout << "–í–ª–∞–¥–µ–ª–µ—Ü 2: " << owner2->GetTitle() << "\n";
+    } 
+
+    std::cout << "\nshared_ptr: —Å—á–µ—Ç—á–∏–∫ –≤–ª–∞–¥–µ–ª—å—Ü–µ–≤\n";
+    {
+        auto sharedBook = std::make_shared<Book>("1984", "–û—Ä—É—ç–ª–ª", "–ê–Ω—Ç–∏—É—Ç–æ–ø–∏—è", 2);
+        std::cout << "–í–ª–∞–¥–µ–ª—å—Ü–µ–≤: " << sharedBook.use_count() << "\n";
+        {
+            auto bookCopy = sharedBook; 
+            std::cout << "–í–ª–∞–¥–µ–ª—å—Ü–µ–≤ –ø–æ—Å–ª–µ –∫–æ–ø–∏–∏: " << sharedBook.use_count() << "\n"; 
+        } 
+        std::cout << "–í–ª–∞–¥–µ–ª—å—Ü–µ–≤ –ø–æ—Å–ª–µ –≤—ã—Ö–æ–¥–∞ –∏–∑ –±–ª–æ–∫–∞: " << sharedBook.use_count() << "\n"; 
+    }
+
+    std::cout << "\n–î–∏–Ω–∞–º–∏—á–µ—Å–∫–∏–π –º–∞—Å—Å–∏–≤ –æ–±—ä–µ–∫—Ç–æ–≤\n";
+    {
+        auto shelf = std::make_unique<Book[]>(2);
+        shelf[0].SetTitle("–ü—Ä–µ—Å—Ç—É–ø–ª–µ–Ω–∏–µ –∏ –Ω–∞–∫–∞–∑–∞–Ω–∏–µ");
+        shelf[1].SetTitle("–ò–¥–∏–æ—Ç");
+        std::cout << "–ú–∞—Å—Å–∏–≤ –∫–Ω–∏–≥: " << shelf[0].GetTitle() << ", " << shelf[1].GetTitle() << "\n";
+    } 
+    std::cout << "\n–ú–∞—Å—Å–∏–≤ –¥–∏–Ω–∞–º–∏—á–µ—Å–∫–∏—Ö –æ–±—ä–µ–∫—Ç–æ–≤\n";
+    {
+        auto dynShelf = std::make_unique<std::shared_ptr<Book>[]>(2);
+        dynShelf[0] = std::make_shared<Book>("–ì–∞—Ä—Ä–∏ –ü–æ—Ç—Ç–µ—Ä", "–†–æ—É–ª–∏–Ω–≥", "–§—ç–Ω—Ç–µ–∑–∏", 5);
+        dynShelf[1] = std::make_shared<Book>("–•–æ–±–±–∏—Ç", "–¢–æ–ª–∫–∏–Ω", "–§—ç–Ω—Ç–µ–∑–∏", 3);
+        std::cout << "–£–∫–∞–∑–∞—Ç–µ–ª–∏ –Ω–∞ –∫–Ω–∏–≥–∏: " << dynShelf[0]->GetTitle() << ", " << dynShelf[1]->GetTitle() << "\n";
+    } 
+}
 
 int main()
 {
-    system("chcp 1251 > nul");
-    setlocale(LC_ALL, "Rus");
-    std::cout << "1. —Ú‡ÚË˜ÂÒÍËÂ Ó·˙ÂÍÚ˚ (ÒÚÂÍ)" << std::endl;
-    Book stackBook("Ã‡ÒÚÂ Ë Ã‡„‡ËÚ‡", "Ã. ¡ÛÎ„‡ÍÓ‚", "–ÓÏ‡Ì", 3);
-    stackBook.Print();
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(65001);
+    setlocale(LC_ALL, "Russian");
 
-    std::cout << "ŒˆÂÌÍ‡ 5: ";
-    stackBook.SetRating(5);
-    std::cout << "–ÂÈÚËÌ„ = " << stackBook.GetRating() << std::endl;
+    std::cout << "–õ–∞–±–æ—Ä–∞—Ç–æ—Ä–Ω–∞—è —Ä–∞–±–æ—Ç–∞ ‚Ññ3\n";
+    std::cout << "–£–ø—Ä–∞–≤–ª—è–µ–º–∞—è –ø–∞–º—è—Ç—å –∏ —É–º–Ω—ã–µ —É–∫–∞–∑–∞—Ç–µ–ª–∏\n";
 
-    std::cout << "\n2. ƒËÌ‡ÏË˜ÂÒÍËÂ Ó·˙ÂÍÚ˚ (new/delete)" << std::endl;
-    Book* dynamicBook = new Book("1984", "ƒÊ. ŒÛ˝ÎÎ", "¿ÌÚËÛÚÓÔËˇ", 2);
-    dynamicBook->Print();
+    RunScenario();
+    DemoMemory();
 
-    std::cout << "\n3. –‡·ÓÚ‡ ÔÓ ÒÒ˚ÎÍÂ Ë ÛÍ‡Á‡ÚÂÎ˛" << std::endl;
-    Book& refBook = stackBook;  
-    refBook.SetRating(4);
-    std::cout << "–ÂÈÚËÌ„ ˜ÂÂÁ ÒÒ˚ÎÍÛ: " << stackBook.GetRating() << std::endl;
-
-    Book* ptrBook = dynamicBook;
-    ptrBook->WithdrawFromSale();
-    std::cout << "ƒÓÒÚÛÔÌÓÒÚ¸ ˜ÂÂÁ ÛÍ‡Á‡ÚÂÎ¸: "
-        << (ptrBook->IsAvailable() ? "‰‡" : "ÌÂÚ") << std::endl;
-
-    std::cout << "\n4. ƒËÌ‡ÏË˜ÂÒÍËÈ Ï‡ÒÒË‚ Ó·˙ÂÍÚÓ‚" << std::endl;
-    Book* shelf = new Book[2];
-    shelf[0].SetTitle("œÂÒÚÛÔÎÂÌËÂ Ë Ì‡Í‡Á‡ÌËÂ");
-    shelf[0].SetAuthor("‘. ƒÓÒÚÓÂ‚ÒÍËÈ");
-    shelf[0].SetGenre("–ÓÏ‡Ì");
-    shelf[0].SetStock(4);
-
-    shelf[1].SetTitle("»‰ËÓÚ");
-    shelf[1].SetAuthor("‘. ƒÓÒÚÓÂ‚ÒÍËÈ");
-    shelf[1].SetGenre("–ÓÏ‡Ì");
-    shelf[1].SetStock(2);
-
-    shelf[0].Print();
-    shelf[1].Print();
-
-    std::cout << "\n5. Ã‡ÒÒË‚ ‰ËÌ‡ÏË˜ÂÒÍËı Ó·˙ÂÍÚÓ‚" << std::endl;
-    Book** dynShelf = new Book * [2];
-    dynShelf[0] = new Book("√‡Ë œÓÚÚÂ", "ƒÊ. –ÓÛÎËÌ„", "‘˝ÌÚÂÁË", 5);
-    dynShelf[1] = new Book("’Ó··ËÚ", "ƒÊ. “ÓÎÍËÌ", "‘˝ÌÚÂÁË", 4);
-
-    dynShelf[0]->Print();
-    dynShelf[1]->Print();
-
-    delete dynShelf[0];
-    delete dynShelf[1];
-    delete[] dynShelf;
-
-    std::cout << "\n6. ¿„Â„‡ˆËˇ: ÍÌË„Ë ÒÓÁ‰‡Ì˚ ‚ÌÂ ˜ËÚ‡ÚÂÎˇ" << std::endl;
-    Book* witcher = new Book("¬Â‰¸Ï‡Í", "¿. —‡ÔÍÓ‚ÒÍËÈ", "‘˝ÌÚÂÁË", 2);
-    Book* dune = new Book("ƒ˛Ì‡", "‘. √Â·ÂÚ", "‘‡ÌÚ‡ÒÚËÍ‡", 1);
-    Book* thedarktower = new Book("“∏ÏÌ‡ˇ ·‡¯Ìˇ", "—.  ËÌ„", "‘˝ÌÚÂÁË", 0);
-
-    thedarktower->WithdrawFromSale();
-
-    Book* candidates[] = { witcher, dune, thedarktower };
-
-    {
-        std::cout << "\n7.  ÓÏÔÓÁËˆËˇ: ˜ËÚ‡ÚÂÎ¸ Ë Â„Ó ÂÍÓÏÂÌ‰‡ÚÂÎ¸Ì˚È ÒÔËÒÓÍ" << std::endl;
-        Reader reader("»‚‡Ì");
-        reader.PrintStatus();
-
-        std::cout << "\nœÓ‚ÂÍ‡ Ô‡‚ËÎ‡: ÓˆÂÌÍ‡ ‚ÌÂ ‰Ë‡Ô‡ÁÓÌ‡ 1..5" << std::endl;
-        reader.RateBook(*witcher, 6); 
-        reader.RateBook(*witcher, 5); 
-
-        std::cout << "\nœÓ‚ÂÍ‡ Ô‡‚ËÎ‡: ÔÓÍÛÔÍ‡ ÒÌˇÚÓÈ Ò ÔÓ‰‡ÊË ÍÌË„Ë" << std::endl;
-        reader.BuyBook(*thedarktower);
-        reader.BuyBook(*witcher);   
-
-        std::cout << "\n‘ÓÏËÓ‚‡ÌËÂ ÂÍÓÏÂÌ‰‡ˆËÈ" << std::endl;
-        reader.RequestRecommendations(candidates, 3);
-        reader.PrintStatus();
-
-        std::cout << "\n¬˚ıÓ‰ ËÁ ·ÎÓÍ‡: ÛÌË˜ÚÓÊÂÌËÂ ˜ËÚ‡ÚÂÎˇ" << std::endl;
-    }
-
-    std::cout << "\n8. œÓ‚ÂÍ‡ ‡„Â„‡ˆËË: ÍÌË„Ë ÊË‚˚ ÔÓÒÎÂ ÛÌË˜ÚÓÊÂÌËˇ ˜ËÚ‡ÚÂÎˇ" << std::endl;
-    std::cout << " ÌË„‡ ÒÛ˘ÂÒÚ‚ÛÂÚ: " << witcher->GetTitle() << std::endl;
-    dune->Print();
-
-    std::cout << "\n9. ƒÂÏÓÌÒÚ‡ˆËˇ ÌÂ‰ÓÒÚ‡ÚÍ‡ ‰‡ÌÌ˚ı" << std::endl;
-    {
-        Reader newbie("ÕÓ‚˚È ˜ËÚ‡ÚÂÎ¸");
-        newbie.RequestRecommendations(candidates, 3);
-    }
-
-    delete witcher;
-    delete dune;
-    delete thedarktower;
-    delete dynamicBook;
-    delete[] shelf;
-
+    std::cout << "\n–ö–æ–Ω–µ—Ü –ø—Ä–æ–≥—Ä–∞–º–º—ã\n";
     return 0;
 }
