@@ -1,4 +1,7 @@
-﻿#include "book.hpp"
+﻿#include "BaseProduct.hpp"
+#include "PaperBook.hpp"
+#include "EBook.hpp"
+#include "book.hpp"
 #include "reader.hpp"
 #include <iostream>
 #include <memory>
@@ -6,6 +9,44 @@
 
 using namespace bookstore;
 
+void DemoInheritance() {
+    std::cout << "\nЛР 4: Наследование\n";
+
+    auto author = std::make_shared<Author>("Дж. Роулинг");
+
+    std::cout << "\nСоздание объектов\n";
+    PaperBook paperBook("Гарри Поттер и философский камень", author, 5);
+    EBook eBook("Гарри Поттер (электронная)", author, 2.5);
+
+    std::cout << "\nПолиморфизм\n";
+    std::unique_ptr<BaseProduct> item1 = std::make_unique<PaperBook>("Ведьмак", author, 10);
+    std::unique_ptr<BaseProduct> item2 = std::make_unique<EBook>("Ведьмак (аудио)", author, 150.0);
+
+    std::cout << item1->Describe() << "\n";
+    std::cout << item2->Describe() << "\n";
+
+    std::cout << "\nКопирование\n";
+    std::cout << "До копирования: " << author->name << "\n";
+    PaperBook original("Мастер и Маргарита", std::make_shared<Author>("Булгаков"), 3);
+
+    PaperBook copy = original;
+    std::cout << "После глубокого копирования: \n";
+    std::cout << "Original: " << original.Describe() << "\n";
+    std::cout << "Copy:     " << copy.Describe() << "\n";
+
+    std::cout << "\nКлонирование через Clone()\n";
+    std::unique_ptr<BaseProduct> cloned = item2->Clone();
+    std::cout << "Клон: " << cloned->Describe() << "\n";
+
+    std::cout << "\nРабота со строками\n";
+    std::string title = "Мастер и Маргарита";
+    std::size_t pos = title.find("Маргарита");
+    if (pos != std::string::npos) {
+        std::cout << "Найдено слово: " << title.substr(pos, 9) << "\n";
+    }
+
+    std::cout << "\nВыход из функции\n";
+}
 void RunScenario()
 {
     std::cout << "\nСценарий магазина\n";
@@ -105,7 +146,7 @@ int main()
 
     RunScenario();
     DemoMemory();
-
+    DemoInheritance();
     std::cout << "\nКонец программы\n";
     return 0;
 }
