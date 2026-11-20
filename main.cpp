@@ -34,8 +34,14 @@ void DemoInheritance() {
     std::cout << "Original: " << original.Describe() << "\n";
     std::cout << "Copy:     " << copy.Describe() << "\n";
 
-    std::cout << "\nКлонирование через Clone()\n";
-    std::unique_ptr<BaseProduct> cloned = item2->Clone();
+    std::cout << "\nКлонирование\n";
+    auto tolkin = std::make_shared<Author>("Толкин");
+    EBook originalEBook("Хоббит (электронная)", tolkin, 5.0);
+
+    std::unique_ptr<BaseProduct> cloned = originalEBook.Clone();
+    std::cout << "Количество владельцев автора (use_count): " << tolkin.use_count() << "\n";
+    tolkin->name = "Дж. Р. Р. Толкин";
+    std::cout << "Имя автора изменилось на: " << tolkin->name << "\n";
     std::cout << "Клон: " << cloned->Describe() << "\n";
 
     std::cout << "\nРабота со строками\n";
@@ -146,7 +152,7 @@ int main()
 
     RunScenario();
     DemoMemory();
-    DemoInheritance();
+    DemoInheritance();  
     std::cout << "\nКонец программы\n";
     return 0;
 }
